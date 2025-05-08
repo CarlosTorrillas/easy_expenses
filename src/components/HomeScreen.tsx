@@ -26,66 +26,107 @@ const expenseCategories: ExpenseCategory[] = [
   { name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th' },
 ];
 
-const sectionContent: Record<string, React.ReactNode> = {
-  monthly: (
-    <>
-      <h2>Monthly Summary</h2>
-      <p>Monthly summary will be displayed here.</p>
-    </>
-  ),
-  categories: (
-    <>
-      <h2>Expense Categories</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Supplier</th>
-            <th>Cost</th>
-            <th>Payment Day</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenseCategories.map((cat) => (
-            <tr key={cat.name}>
-              <td>{cat.name}</td>
-              <td>{cat.supplier}</td>
-              <td>{cat.cost}</td>
-              <td>{cat.paymentDay}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  ),
-  transactions: (
-    <>
-      <h2>Recent Transactions</h2>
-      <p>Recent transactions will be displayed here.</p>
-    </>
-  ),
-  calendar: (
-    <>
-      <h2>Calendar</h2>
-      <p>Calendar will be displayed here.</p>
-    </>
-  ),
-  actions: (
-    <>
-      <h2>Quick Actions</h2>
-      <p>Quick actions will be displayed here.</p>
-    </>
-  ),
-  insights: (
-    <>
-      <h2>Insights</h2>
-      <p>Insights and tips will be displayed here.</p>
-    </>
-  ),
-};
-
 const HomeScreen: React.FC = () => {
   const [selected, setSelected] = useState<string>('monthly');
+  const [sortBy, setSortBy] = useState<string>(''); // e.g., 'cost'
+  const [sortAsc, setSortAsc] = useState<boolean>(true);
+
+  // Sorting logic for expense categories
+  const getSortedCategories = () => {
+    if (selected !== 'categories' || !sortBy) return expenseCategories;
+    const sorted = [...expenseCategories].sort((a, b) => {
+      if (sortBy === 'cost') {
+        const costA = parseFloat(a.cost.replace('£', ''));
+        const costB = parseFloat(b.cost.replace('£', ''));
+        return sortAsc ? costA - costB : costB - costA;
+      }
+      // Add more sort options if needed
+      return 0;
+    });
+    return sorted;
+  };
+
+  const handleSort = (column: string) => {
+    if (sortBy === column) {
+      setSortAsc(!sortAsc);
+    } else {
+      setSortBy(column);
+      setSortAsc(true);
+    }
+  };
+
+  const sectionContent: Record<string, React.ReactNode> = {
+    monthly: (
+      <>
+        <h2>Monthly Summary</h2>
+        <p>Monthly summary will be displayed here.</p>
+      </>
+    ),
+    categories: (
+      <>
+        <h2>Expense Categories</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Supplier</th>
+              <th
+                className="sortable-column"
+                onClick={() => handleSort('cost')}
+                title="Click to sort by cost"
+                tabIndex={0}
+                onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') handleSort('cost'); }}
+                aria-label={`Sort by cost ${sortBy === 'cost' ? (sortAsc ? 'descending' : 'ascending') : ''}`}
+              >
+                Cost
+                <span
+                  aria-hidden="true"
+                  className={`sort-arrow${sortBy === 'cost' ? ' visible' : ''}`}
+                >
+                  {sortBy === 'cost' ? (sortAsc ? '▲' : '▼') : '▲'}
+                </span>
+              </th>
+              <th>Payment Day</th>
+            </tr>
+          </thead>
+          <tbody>
+            {getSortedCategories().map((cat) => (
+              <tr key={cat.name}>
+                <td>{cat.name}</td>
+                <td>{cat.supplier}</td>
+                <td>{cat.cost}</td>
+                <td>{cat.paymentDay}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    ),
+    transactions: (
+      <>
+        <h2>Recent Transactions</h2>
+        <p>Recent transactions will be displayed here.</p>
+      </>
+    ),
+    calendar: (
+      <>
+        <h2>Calendar</h2>
+        <p>Calendar will be displayed here.</p>
+      </>
+    ),
+    actions: (
+      <>
+        <h2>Quick Actions</h2>
+        <p>Quick actions will be displayed here.</p>
+      </>
+    ),
+    insights: (
+      <>
+        <h2>Insights</h2>
+        <p>Insights and tips will be displayed here.</p>
+      </>
+    ),
+  };
 
   return (
     <div className="home-layout">

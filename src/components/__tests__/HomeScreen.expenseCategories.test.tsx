@@ -16,18 +16,20 @@ const expenseCategories = [
 describe('Feature: View Different Expense Categories', () => {
   beforeEach(async () => {
     render(<HomeScreen />);
+    // Navigate to Expense Categories section
     await userEvent.click(screen.getByRole('button', { name: /expense categories/i }));
   });
 
 //   test('displays a clearly labeled section titled "Expense Categories"', () => {
 //     expect(screen.getByRole('heading', { name: /expense categories/i })).toBeInTheDocument();
 //   });
-
-  test('displays a list of common recurring expense categories', () => {
-    expenseCategories.forEach((category) => {
-      expect(screen.getByText(category.name)).toBeInTheDocument();
+    test('displays a table with the correct headers', () => {
+        expect(screen.getByRole('table')).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /category/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /supplier/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /cost/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /payment day/i })).toBeInTheDocument();
     });
-  });
 
   test('displays basic details for each expense category', () => {
     expenseCategories.forEach((cat) => {
@@ -43,6 +45,28 @@ describe('Feature: View Different Expense Categories', () => {
     expect(screen.getByRole('columnheader', { name: /cost/i })).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: /payment day/i })).toBeInTheDocument();
   });
+
+  test('sorts categories when the user clicks on the column headers', async () => {
+    const costHeader = screen.getByRole('columnheader', { name: /cost/i });
+    await userEvent.click(costHeader);
+
+    const sortedCategories = [...expenseCategories].sort((a, b) => {
+      const costA = parseFloat(a.cost.replace('£', ''));
+      const costB = parseFloat(b.cost.replace('£', ''));
+      return costA - costB;
+    });
+
+    // Get all table rows except the header
+    const rows = screen.getAllByRole('row').slice(1);
+    // Get the category name from the first cell of each row
+    const displayedCategories = rows.map((row) =>
+      within(row).getAllByRole('cell')[0].textContent
+    );
+
+    expect(displayedCategories).toEqual(sortedCategories.map((cat) => cat.name));
+  });
+    
+  
 
 //   test('displays Direct Debit bank name when applicable', async () => {
 //     // Simulate selecting a category with Direct Debit (e.g., "Electricity")

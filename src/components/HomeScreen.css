@@ -68,6 +68,40 @@ th {
   border-bottom: 2px solid #e0e0e0;
 }
 
+th[title] {
+  transition: text-decoration 0.2s;
+}
+th[title]:hover, th[title]:focus {
+  text-decoration: underline;
+  color: #0078d4;
+}
+
+.sortable-column {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  font-weight: inherit;
+  transition: text-decoration 0.2s, color 0.2s;
+}
+.sortable-column:hover,
+.sortable-column:focus {
+  text-decoration: underline;
+  color: #0078d4;
+}
+
+.sort-arrow {
+  margin-left: 4px;
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  color: transparent;
+  transition: color 0.2s;
+}
+
+.sort-arrow.visible {
+  color: inherit;
+}
+
 tr:not(:last-child) td {
   border-bottom: 1px solid #f0f0f0;
 }
