@@ -1,0 +1,97 @@
+/* Layout styles */
+.home-layout {
+  display: flex;
+  min-height: 80vh;
+  background: #f7f8fa;
+}
+
+.sidebar {
+  min-width: 200px;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  padding: 2rem 1rem;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.03);
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar li.active,
+.sidebar li:hover,
+.sidebar li:focus {
+  background: #0078d4;
+  color: #fff;
+  outline: none;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f7f8fa;
+}
+
+/* Expense Categories Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+}
+
+th {
+  background: #f0f4f8;
+  font-weight: 600;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+tr:not(:last-child) td {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+tr:hover td {
+  background: #f5faff;
+}
+
+@media (max-width: 800px) {
+  .home-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    min-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: none;
+    padding: 1rem 0.5rem;
+  }
+  .main-content {
+    padding: 1rem;
+  }
+  table, th, td {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+}
