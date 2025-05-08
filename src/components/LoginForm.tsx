@@ -1,27 +1,31 @@
 // src/components/LoginForm.js
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function LoginForm({ onLoginSuccess }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+interface LoginFormProps {
+  onLoginSuccess: (email: string, password: string, navigate: (path: string) => void) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
       setError('Email and password are required');
       return;
     }
-    setError(''); // Clear any previous error
+    setError('');
     if (onLoginSuccess) {
-      onLoginSuccess(email, password, navigate); // Pass navigate as an argument
+      onLoginSuccess(email, password, navigate);
     }
   };
 
   return (
-    <div className="container"> 
+    <div className="container">
       <form onSubmit={handleSubmit}>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <div>
@@ -31,6 +35,7 @@ function LoginForm({ onLoginSuccess }) {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="username"
           />
         </div>
         <div>
@@ -40,12 +45,13 @@ function LoginForm({ onLoginSuccess }) {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
           />
         </div>
         <button type="submit">Login</button>
       </form>
     </div>
   );
-}
+};
 
 export default LoginForm;
