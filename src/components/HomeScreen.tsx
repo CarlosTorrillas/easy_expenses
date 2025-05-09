@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import './HomeScreen.css';
+import ExpenseCategoriesTable from './ExpenseCategoriesTable';
 
 interface ExpenseCategory {
-  name: string;
+  id: string;
+  type: string; // e.g., 'Subscription', 'Water', etc.
+  name: string; // e.g., 'Netflix', 'Thames Water'
   supplier: string;
   cost: string;
   paymentDay: string;
+  paymentMethod: string;
 }
 
 const sections = [
@@ -18,42 +22,23 @@ const sections = [
 ];
 
 const expenseCategories: ExpenseCategory[] = [
-  { name: 'Water', supplier: 'Thames Water', cost: '£30', paymentDay: '1st' },
-  { name: 'Electricity', supplier: 'Octopus Energy', cost: '£45', paymentDay: '5th' },
-  { name: 'Gas', supplier: 'British Gas', cost: '£40', paymentDay: '10th' },
-  { name: 'Council Tax', supplier: 'Local Council', cost: '£120', paymentDay: '15th' },
-  { name: 'Internet', supplier: 'BT', cost: '£25', paymentDay: '20th' },
-  { name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th' },
+  { id: '1', type: 'Water', name: 'Water', supplier: 'Thames Water', cost: '£30', paymentDay: '1st', paymentMethod: 'Direct Debit' },
+  { id: '2', type: 'Electricity', name: 'Electricity', supplier: 'Octopus Energy', cost: '£45', paymentDay: '5th', paymentMethod: 'Direct Debit' },
+  { id: '3', type: 'Gas', name: 'Gas', supplier: 'British Gas', cost: '£40', paymentDay: '10th', paymentMethod: 'Bank Transfer' },
+  { id: '4', type: 'Council Tax', name: 'Council Tax', supplier: 'Local Council', cost: '£120', paymentDay: '15th', paymentMethod: 'Direct Debit' },
+  { id: '5', type: 'Internet', name: 'Internet', supplier: 'BT', cost: '£25', paymentDay: '20th', paymentMethod: 'Bank Transfer' },
+  { id: '6', type: 'Mobile', name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th', paymentMethod: 'Direct Debit' },
+  { id: '7', type: 'Insurance', name: 'Insurance', supplier: 'Aviva', cost: '£50', paymentDay: '30th', paymentMethod: 'Direct Debit' },
+  { id: '8', type: 'Subscription', name: 'Netflix', supplier: 'Netflix', cost: '£10', paymentDay: '1st', paymentMethod: 'Direct Debit' },
+  { id: '9', type: 'Subscription', name: 'Disney plus', supplier: 'Disney plus', cost: '£10', paymentDay: '5th', paymentMethod: 'Direct Debit' },
+  { id: '10', type: 'Subscription', name: 'Amazon Prime', supplier: 'Amazon Prime', cost: '£8', paymentDay: '10th', paymentMethod: 'Direct Debit' },
+  { id: '11', type: 'Subscription', name: 'Spotify', supplier: 'Spotify', cost: '£10', paymentDay: '15th', paymentMethod: 'Pay Pal' },
+  { id: '12', type: 'Subscription', name: 'HBO Max', supplier: 'HBO Max', cost: '£12', paymentDay: '20th', paymentMethod: 'Google Pay' },
+  { id: '13', type: 'Subscription', name: 'Apple Music', supplier: 'Apple Music', cost: '£10', paymentDay: '25th', paymentMethod: 'Direct Debit' },
 ];
 
 const HomeScreen: React.FC = () => {
   const [selected, setSelected] = useState<string>('monthly');
-  const [sortBy, setSortBy] = useState<string>(''); // e.g., 'cost'
-  const [sortAsc, setSortAsc] = useState<boolean>(true);
-
-  // Sorting logic for expense categories
-  const getSortedCategories = () => {
-    if (selected !== 'categories' || !sortBy) return expenseCategories;
-    const sorted = [...expenseCategories].sort((a, b) => {
-      if (sortBy === 'cost') {
-        const costA = parseFloat(a.cost.replace('£', ''));
-        const costB = parseFloat(b.cost.replace('£', ''));
-        return sortAsc ? costA - costB : costB - costA;
-      }
-      // Add more sort options if needed
-      return 0;
-    });
-    return sorted;
-  };
-
-  const handleSort = (column: string) => {
-    if (sortBy === column) {
-      setSortAsc(!sortAsc);
-    } else {
-      setSortBy(column);
-      setSortAsc(true);
-    }
-  };
 
   const sectionContent: Record<string, React.ReactNode> = {
     monthly: (
@@ -65,41 +50,7 @@ const HomeScreen: React.FC = () => {
     categories: (
       <>
         <h2>Expense Categories</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Supplier</th>
-              <th
-                className="sortable-column"
-                onClick={() => handleSort('cost')}
-                title="Click to sort by cost"
-                tabIndex={0}
-                onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') handleSort('cost'); }}
-                aria-label={`Sort by cost ${sortBy === 'cost' ? (sortAsc ? 'descending' : 'ascending') : ''}`}
-              >
-                Cost
-                <span
-                  aria-hidden="true"
-                  className={`sort-arrow${sortBy === 'cost' ? ' visible' : ''}`}
-                >
-                  {sortBy === 'cost' ? (sortAsc ? '▲' : '▼') : '▲'}
-                </span>
-              </th>
-              <th>Payment Day</th>
-            </tr>
-          </thead>
-          <tbody>
-            {getSortedCategories().map((cat) => (
-              <tr key={cat.name}>
-                <td>{cat.name}</td>
-                <td>{cat.supplier}</td>
-                <td>{cat.cost}</td>
-                <td>{cat.paymentDay}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ExpenseCategoriesTable categories={expenseCategories} />
       </>
     ),
     transactions: (
