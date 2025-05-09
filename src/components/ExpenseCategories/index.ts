@@ -1,1 +1,2 @@
-export { default as ExpenseCategories } from './ExpenseCategories';
+export { default } from './ExpenseCategories';
+export type { ExpenseCategory } from './ExpenseCategories';

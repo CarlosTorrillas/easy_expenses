@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './ExpenseCategories.css';
 
-interface ExpenseCategory {
+export interface ExpenseCategory {
   id: string;
   type: string;
   name: string;
@@ -8,6 +9,7 @@ interface ExpenseCategory {
   cost: string;
   paymentDay: string;
   paymentMethod: string;
+  bank?: string;
 }
 
 interface Props {
@@ -40,10 +42,10 @@ const ExpenseCategories: React.FC<Props> = ({ categories }) => {
         const dayB = parseInt(b.paymentDay, 10);
         return sortAsc ? dayA - dayB : dayB - dayA;
       }
-      if (sortBy === 'name' || sortBy === 'supplier' || sortBy === 'paymentMethod' || sortBy === 'type') {
+      if (sortBy === 'name' || sortBy === 'supplier' || sortBy === 'paymentMethod' || sortBy === 'type' || sortBy === 'bank') {
         return sortAsc
-          ? a[sortBy].localeCompare(b[sortBy])
-          : b[sortBy].localeCompare(a[sortBy]);
+          ? (a[sortBy] ?? '').localeCompare(b[sortBy] ?? '')
+          : (b[sortBy] ?? '').localeCompare(a[sortBy] ?? '');
       }
       return 0;
     });
@@ -150,6 +152,22 @@ const ExpenseCategories: React.FC<Props> = ({ categories }) => {
               {sortAsc ? '▲' : '▼'}
             </span>
           </th>
+          <th
+            className="sortable-column"
+            onClick={() => handleSort('bank')}
+            title="Click to sort by bank"
+            tabIndex={0}
+            onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') handleSort('bank'); }}
+            aria-label={`Sort by bank ${sortBy === 'bank' ? (sortAsc ? 'descending' : 'ascending') : ''}`}
+          >
+            Bank
+            <span
+              aria-hidden="true"
+              className={`sort-arrow${sortBy === 'bank' ? ' visible' : ''}`}
+            >
+              {sortAsc ? '▲' : '▼'}
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -161,6 +179,7 @@ const ExpenseCategories: React.FC<Props> = ({ categories }) => {
             <td>{cat.cost}</td>
             <td>{cat.paymentDay}</td>
             <td>{cat.paymentMethod}</td>
+            <td>{cat.bank}</td>
           </tr>
         ))}
       </tbody>

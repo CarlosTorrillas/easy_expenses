@@ -1,17 +1,9 @@
-import React, { useState } from 'react';
-import './HomeScreen.css';
-import { ExpenseCategories } from '../ExpenseCategories';
+import React, { useState, useEffect } from 'react';
+import './Home.css';
+import ExpenseCategories from '../ExpenseCategories/ExpenseCategories';
+import { ExpenseCategory } from '../ExpenseCategories/ExpenseCategories';
 
 
-interface ExpenseCategory {
-  id: string;
-  type: string; // e.g., 'Subscription', 'Water', etc.
-  name: string; // e.g., 'Netflix', 'Thames Water'
-  supplier: string;
-  cost: string;
-  paymentDay: string;
-  paymentMethod: string;
-}
 
 const sections = [
   { key: 'monthly', label: 'Monthly Summary' },
@@ -23,15 +15,15 @@ const sections = [
 ];
 
 const expenseCategories: ExpenseCategory[] = [
-  { id: '1', type: 'Water', name: 'Water', supplier: 'Thames Water', cost: '£30', paymentDay: '1st', paymentMethod: 'Direct Debit' },
-  { id: '2', type: 'Electricity', name: 'Electricity', supplier: 'Octopus Energy', cost: '£45', paymentDay: '5th', paymentMethod: 'Direct Debit' },
-  { id: '3', type: 'Gas', name: 'Gas', supplier: 'British Gas', cost: '£40', paymentDay: '10th', paymentMethod: 'Bank Transfer' },
-  { id: '4', type: 'Council Tax', name: 'Council Tax', supplier: 'Local Council', cost: '£120', paymentDay: '15th', paymentMethod: 'Direct Debit' },
-  { id: '5', type: 'Internet', name: 'Internet', supplier: 'BT', cost: '£25', paymentDay: '20th', paymentMethod: 'Bank Transfer' },
-  { id: '6', type: 'Mobile', name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th', paymentMethod: 'Direct Debit' },
-  { id: '7', type: 'Insurance', name: 'Insurance', supplier: 'Aviva', cost: '£50', paymentDay: '30th', paymentMethod: 'Direct Debit' },
-  { id: '8', type: 'Subscription', name: 'Netflix', supplier: 'Netflix', cost: '£10', paymentDay: '1st', paymentMethod: 'Direct Debit' },
-  { id: '9', type: 'Subscription', name: 'Disney plus', supplier: 'Disney plus', cost: '£10', paymentDay: '5th', paymentMethod: 'Direct Debit' },
+  { id: '1', type: 'Water', name: 'Water', supplier: 'Thames Water', cost: '£30', paymentDay: '1st', paymentMethod: 'Direct Debit', bank: 'HSBC' },
+  { id: '2', type: 'Electricity', name: 'Electricity', supplier: 'Octopus Energy', cost: '£45', paymentDay: '5th', paymentMethod: 'Direct Debit', bank: 'Lloyds' },
+  { id: '3', type: 'Gas', name: 'Gas', supplier: 'British Gas', cost: '£40', paymentDay: '10th', paymentMethod: 'Bank Transfer', bank: 'Barclays' },
+  { id: '4', type: 'Council Tax', name: 'Council Tax', supplier: 'Local Council', cost: '£120', paymentDay: '15th', paymentMethod: 'Direct Debit', bank: 'Santander' },
+  { id: '5', type: 'Internet', name: 'Internet', supplier: 'BT', cost: '£25', paymentDay: '20th', paymentMethod: 'Bank Transfer', bank: 'HSBC' },
+  { id: '6', type: 'Mobile', name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th', paymentMethod: 'Direct Debit',  bank: 'Lloyds' },
+  { id: '7', type: 'Insurance', name: 'Insurance', supplier: 'Aviva', cost: '£50', paymentDay: '30th', paymentMethod: 'Direct Debit', bank: 'Barclays' },
+  { id: '8', type: 'Subscription', name: 'Netflix', supplier: 'Netflix', cost: '£10', paymentDay: '1st', paymentMethod: 'Direct Debit', bank: 'Santander' },
+  { id: '9', type: 'Subscription', name: 'Disney plus', supplier: 'Disney plus', cost: '£10', paymentDay: '5th', paymentMethod: 'Direct Debit', bank: 'HSBC' },
   { id: '10', type: 'Subscription', name: 'Amazon Prime', supplier: 'Amazon Prime', cost: '£8', paymentDay: '10th', paymentMethod: 'Direct Debit' },
   { id: '11', type: 'Subscription', name: 'Spotify', supplier: 'Spotify', cost: '£10', paymentDay: '15th', paymentMethod: 'Pay Pal' },
   { id: '12', type: 'Subscription', name: 'HBO Max', supplier: 'HBO Max', cost: '£12', paymentDay: '20th', paymentMethod: 'Google Pay' },
@@ -40,6 +32,18 @@ const expenseCategories: ExpenseCategory[] = [
 
 const HomeScreen: React.FC = () => {
   const [selected, setSelected] = useState<string>('monthly');
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [sidebarOpen]);
 
   const sectionContent: Record<string, React.ReactNode> = {
     monthly: (
@@ -82,14 +86,26 @@ const HomeScreen: React.FC = () => {
 
   return (
     <div className="home-layout">
-      <nav className="sidebar">
+      <button
+        className="burger-menu"
+        aria-label="Open menu"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+      <nav className={`sidebar${sidebarOpen ? ' open' : ''}`}>
         <h1>Home</h1>
         <ul>
           {sections.map((section) => (
             <li
               key={section.key}
               className={selected === section.key ? 'active' : ''}
-              onClick={() => setSelected(section.key)}
+              onClick={() => {
+                setSelected(section.key);
+                setSidebarOpen(false); // close menu on selection
+              }}
               tabIndex={0}
               role="button"
               aria-pressed={selected === section.key}
@@ -99,6 +115,7 @@ const HomeScreen: React.FC = () => {
           ))}
         </ul>
       </nav>
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
       <main className="main-content">
         {sectionContent[selected]}
       </main>

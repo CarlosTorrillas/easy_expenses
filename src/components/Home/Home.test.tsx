@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HomeScreen from '../Home/Home';
+import HomeScreen from './Home';
 import '@testing-library/jest-dom';
 
 describe('Feature: Home Screen Structure and Default View', () => {

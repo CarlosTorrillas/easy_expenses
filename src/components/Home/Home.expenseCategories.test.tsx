@@ -5,19 +5,19 @@ import HomeScreen from './Home';
 import '@testing-library/jest-dom';
 
 const expenseCategories = [
-    { id: '1', type: 'Water', name: 'Water', supplier: 'Thames Water', cost: '£30', paymentDay: '1st', paymentMethod: 'Direct Debit' },
-    { id: '2', type: 'Electricity', name: 'Electricity', supplier: 'Octopus Energy', cost: '£45', paymentDay: '5th', paymentMethod: 'Direct Debit' },
-    { id: '3', type: 'Gas', name: 'Gas', supplier: 'British Gas', cost: '£40', paymentDay: '10th', paymentMethod: 'Bank Transfer' },
-    { id: '4', type: 'Council Tax', name: 'Council Tax', supplier: 'Local Council', cost: '£120', paymentDay: '15th', paymentMethod: 'Direct Debit' },
-    { id: '5', type: 'Internet', name: 'Internet', supplier: 'BT', cost: '£25', paymentDay: '20th', paymentMethod: 'Bank Transfer' },
-    { id: '6', type: 'Mobile', name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th', paymentMethod: 'Direct Debit' },
-    { id: '7', type: 'Insurance', name: 'Insurance', supplier: 'Aviva', cost: '£50', paymentDay: '30th', paymentMethod: 'Direct Debit' },
-    { id: '8', type: 'Subscription', name: 'Netflix', supplier: 'Netflix', cost: '£10', paymentDay: '1st', paymentMethod: 'Direct Debit' },
-    { id: '9', type: 'Subscription', name: 'Disney plus', supplier: 'Disney plus', cost: '£10', paymentDay: '5th', paymentMethod: 'Direct Debit' },
-    { id: '10', type: 'Subscription', name: 'Amazon Prime', supplier: 'Amazon Prime', cost: '£8', paymentDay: '10th', paymentMethod: 'Direct Debit' },
-    { id: '11', type: 'Subscription', name: 'Spotify', supplier: 'Spotify', cost: '£10', paymentDay: '15th', paymentMethod: 'Pay Pal' },
-    { id: '12', type: 'Subscription', name: 'HBO Max', supplier: 'HBO Max', cost: '£12', paymentDay: '20th', paymentMethod: 'Google Pay' },
-    { id: '13', type: 'Subscription', name: 'Apple Music', supplier: 'Apple Music', cost: '£10', paymentDay: '25th', paymentMethod: 'Direct Debit' },
+  { id: '1', type: 'Water', name: 'Water', supplier: 'Thames Water', cost: '£30', paymentDay: '1st', paymentMethod: 'Direct Debit', bank: 'HSBC' },
+  { id: '2', type: 'Electricity', name: 'Electricity', supplier: 'Octopus Energy', cost: '£45', paymentDay: '5th', paymentMethod: 'Direct Debit', bank: 'Lloyds' },
+  { id: '3', type: 'Gas', name: 'Gas', supplier: 'British Gas', cost: '£40', paymentDay: '10th', paymentMethod: 'Bank Transfer', bank: 'Barclays' },
+  { id: '4', type: 'Council Tax', name: 'Council Tax', supplier: 'Local Council', cost: '£120', paymentDay: '15th', paymentMethod: 'Direct Debit', bank: 'Santander' },
+  { id: '5', type: 'Internet', name: 'Internet', supplier: 'BT', cost: '£25', paymentDay: '20th', paymentMethod: 'Bank Transfer', bank: 'HSBC' },
+  { id: '6', type: 'Mobile', name: 'Mobile', supplier: 'EE', cost: '£20', paymentDay: '25th', paymentMethod: 'Direct Debit',  bank: 'Lloyds' },
+  { id: '7', type: 'Insurance', name: 'Insurance', supplier: 'Aviva', cost: '£50', paymentDay: '30th', paymentMethod: 'Direct Debit', bank: 'Barclays' },
+  { id: '8', type: 'Subscription', name: 'Netflix', supplier: 'Netflix', cost: '£10', paymentDay: '1st', paymentMethod: 'Direct Debit', bank: 'Santander' },
+  { id: '9', type: 'Subscription', name: 'Disney plus', supplier: 'Disney plus', cost: '£10', paymentDay: '5th', paymentMethod: 'Direct Debit', bank: 'HSBC' },
+  { id: '10', type: 'Subscription', name: 'Amazon Prime', supplier: 'Amazon Prime', cost: '£8', paymentDay: '10th', paymentMethod: 'Direct Debit' },
+  { id: '11', type: 'Subscription', name: 'Spotify', supplier: 'Spotify', cost: '£10', paymentDay: '15th', paymentMethod: 'Pay Pal' },
+  { id: '12', type: 'Subscription', name: 'HBO Max', supplier: 'HBO Max', cost: '£12', paymentDay: '20th', paymentMethod: 'Google Pay' },
+  { id: '13', type: 'Subscription', name: 'Apple Music', supplier: 'Apple Music', cost: '£10', paymentDay: '25th', paymentMethod: 'Direct Debit' },
 ];
 
 const sortColumns: { column: string; header: RegExp; key: keyof typeof expenseCategories[number]; label: string }[] = [
@@ -27,6 +27,7 @@ const sortColumns: { column: string; header: RegExp; key: keyof typeof expenseCa
   { column: 'cost', header: /cost/i, key: 'cost', label: 'Cost' },
   { column: 'paymentDay', header: /payment day/i, key: 'paymentDay', label: 'Payment Day' },
   { column: 'paymentMethod', header: /payment method/i, key: 'paymentMethod', label: 'Payment Method' },
+  { column: 'bank', header: /bank/i, key: 'bank', label: 'Bank' },
 ];
 
 describe('Feature: View Different Expense Categories', () => {
@@ -43,6 +44,7 @@ describe('Feature: View Different Expense Categories', () => {
     expect(screen.getByRole('columnheader', { name: /cost/i })).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: /payment day/i })).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: /payment method/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /bank/i })).toBeInTheDocument();
   });
 
   test('displays basic details for each expense category', () => {
@@ -55,6 +57,7 @@ describe('Feature: View Different Expense Categories', () => {
       expect(cells[3].textContent?.trim()).toBe(cat.cost);
       expect(cells[4].textContent?.trim()).toBe(cat.paymentDay);
       expect(cells[5].textContent?.trim()).toBe(cat.paymentMethod);
+      expect(cells[6].textContent?.trim()).toBe(cat.bank ?? '');
     });
   });
 
@@ -75,7 +78,7 @@ describe('Feature: View Different Expense Categories', () => {
           const dayB = parseInt(b.paymentDay, 10);
           return dayA - dayB;
         }
-        return a[key as keyof typeof a].localeCompare(b[key as keyof typeof b]);
+        return (a[key as keyof typeof a] ?? '').localeCompare(b[key as keyof typeof b] ?? '');
       });
 
       const rows = screen.getAllByRole('row').slice(1);
@@ -83,7 +86,7 @@ describe('Feature: View Different Expense Categories', () => {
         within(row).getAllByRole('cell')[sortColumns.findIndex(col => col.key === key)]?.textContent
       );
 
-      expect(displayedCategories).toEqual(sortedCategories.map((cat) => cat[key] as string));
+      expect(displayedCategories).toEqual(sortedCategories.map((cat) => cat[key] ?? ''));
     }
   );
 });
