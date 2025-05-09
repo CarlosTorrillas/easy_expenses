@@ -2,11 +2,11 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface LoginFormProps {
+interface LoginProps {
   onLoginSuccess: (email: string, password: string, navigate: (path: string) => void) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -54,4 +54,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   );
 };
 
-export default LoginForm;
+export default Login;

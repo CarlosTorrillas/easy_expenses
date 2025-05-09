@@ -1,8 +1,8 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import LoginForm from './components/LoginForm';
-import HomeScreen from './components/HomeScreen';
+import Login from './components/Login/Login';
+import HomeScreen from './components/Home/Home';
 import './App.css';
 
 function App() {
@@ -27,7 +27,7 @@ function LoginPage() {
     }
   };
 
-  return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+  return <Login onLoginSuccess={handleLoginSuccess} />;
 }
 
 export default App;

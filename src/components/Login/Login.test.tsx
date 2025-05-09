@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import LoginForm from '../LoginForm';
+import Login from './Login';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -17,14 +17,14 @@ describe('LoginForm', () => {
   });
 
   test('renders email and password input fields and a login button', () => {
-    render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
+    render(<Login onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
     expect(screen.getByLabelText('Email:')).toBeInTheDocument();
     expect(screen.getByLabelText('Password:')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
   });
 
   test('calls the onLoginSuccess prop when both email and password are provided', async () => {
-    render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />);
+    render(<Login onLoginSuccess={mockOnLoginSuccess} />);
     const emailInput = screen.getByLabelText('Email:');
     const passwordInput = screen.getByLabelText('Password:');
     const loginButton = screen.getByRole('button', { name: 'Login' });
@@ -43,7 +43,7 @@ describe('LoginForm', () => {
   });
 
   test('does not call onLoginSuccess and shows an error message if email is empty', async () => {
-    render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
+    render(<Login onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
     const passwordInput = screen.getByLabelText('Password:');
     const loginButton = screen.getByRole('button', { name: 'Login' });
     const emailInput = screen.getByLabelText('Email:');
@@ -56,7 +56,7 @@ describe('LoginForm', () => {
   });
 
   test('does not call onLoginSuccess and shows an error message if password is empty', async () => {
-    render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
+    render(<Login onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
     const emailInput = screen.getByLabelText('Email:');
     const loginButton = screen.getByRole('button', { name: 'Login' });
     const passwordInput = screen.getByLabelText('Password:');
@@ -69,7 +69,7 @@ describe('LoginForm', () => {
   });
 
   test('does not call onLoginSuccess and shows an error message if both fields are empty', async () => {
-    render(<LoginForm onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
+    render(<Login onLoginSuccess={mockOnLoginSuccess} />); // Updated prop name
     const loginButton = screen.getByRole('button', { name: 'Login' });
 
     await userEvent.click(loginButton);

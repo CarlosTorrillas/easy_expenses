@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './HomeScreen.css';
-import ExpenseCategoriesTable from './ExpenseCategoriesTable';
+import { ExpenseCategories } from '../ExpenseCategories';
+
 
 interface ExpenseCategory {
   id: string;
@@ -50,7 +51,7 @@ const HomeScreen: React.FC = () => {
     categories: (
       <>
         <h2>Expense Categories</h2>
-        <ExpenseCategoriesTable categories={expenseCategories} />
+        <ExpenseCategories categories={expenseCategories} />
       </>
     ),
     transactions: (

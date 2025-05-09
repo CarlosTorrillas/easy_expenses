@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './HomeScreen.css';
 
 interface ExpenseCategory {
   id: string;
@@ -15,7 +14,7 @@ interface Props {
   categories: ExpenseCategory[];
 }
 
-const ExpenseCategoriesTable: React.FC<Props> = ({ categories }) => {
+const ExpenseCategories: React.FC<Props> = ({ categories }) => {
   const [sortBy, setSortBy] = useState<string>('');
   const [sortAsc, setSortAsc] = useState<boolean>(true);
 
@@ -79,7 +78,7 @@ const ExpenseCategoriesTable: React.FC<Props> = ({ categories }) => {
             onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') handleSort('name'); }}
             aria-label={`Sort by category ${sortBy === 'name' ? (sortAsc ? 'descending' : 'ascending') : ''}`}
           >
-            Category
+            Name
             <span
               aria-hidden="true"
               className={`sort-arrow${sortBy === 'name' ? ' visible' : ''}`}
@@ -169,4 +168,4 @@ const ExpenseCategoriesTable: React.FC<Props> = ({ categories }) => {
   );
 };
 
-export default ExpenseCategoriesTable;
+export default ExpenseCategories;

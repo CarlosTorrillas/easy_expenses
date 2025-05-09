@@ -3,8 +3,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginForm from '../LoginForm';
-import HomeScreen from '../HomeScreen';
+import Login from '../Login/Login';
+import HomeScreen from '../Home/Home';
 
 // Move mockNavigate inside the mock and export it for use in tests
 const mockNavigate = jest.fn();
@@ -29,7 +29,7 @@ describe('Navigation Flow: Login to Home Screen', () => {
           <Route
             path="/"
             element={
-              <LoginForm
+              <Login
                 onLoginSuccess={(email, password, navigate) => navigate('/home')}
               />
             }

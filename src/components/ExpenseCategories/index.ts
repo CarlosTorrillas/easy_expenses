@@ -1,0 +1,1 @@
+export { default as ExpenseCategories } from './ExpenseCategories';
