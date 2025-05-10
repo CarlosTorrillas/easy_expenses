@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
-import HomeScreen from './components/Home/Home';
+import Home from './components/Home/Home';
 import './App.css';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/home" element={<HomeScreen />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

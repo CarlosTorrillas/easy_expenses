@@ -3,8 +3,6 @@ import './Home.css';
 import ExpenseCategories from '../ExpenseCategories/ExpenseCategories';
 import { ExpenseCategory } from '../ExpenseCategories/ExpenseCategories';
 
-
-
 const sections = [
   { key: 'monthly', label: 'Monthly Summary' },
   { key: 'categories', label: 'Expense Categories' },
@@ -30,7 +28,7 @@ const expenseCategories: ExpenseCategory[] = [
   { id: '13', type: 'Subscription', name: 'Apple Music', supplier: 'Apple Music', cost: '£10', paymentDay: '25th', paymentMethod: 'Direct Debit' },
 ];
 
-const HomeScreen: React.FC = () => {
+const Home: React.FC = () => {
   const [selected, setSelected] = useState<string>('monthly');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
@@ -47,54 +45,43 @@ const HomeScreen: React.FC = () => {
 
   const sectionContent: Record<string, React.ReactNode> = {
     monthly: (
-      <>
-        <h2>Monthly Summary</h2>
-        <p>Monthly summary will be displayed here.</p>
-      </>
+      <p>Monthly summary will be displayed here.</p>
     ),
     categories: (
-      <>
-        <h2>Expense Categories</h2>
-        <ExpenseCategories categories={expenseCategories} />
-      </>
+      <ExpenseCategories categories={expenseCategories} />
     ),
     transactions: (
-      <>
-        <h2>Recent Transactions</h2>
-        <p>Recent transactions will be displayed here.</p>
-      </>
+      <p>Recent transactions will be displayed here.</p>
     ),
     calendar: (
-      <>
-        <h2>Calendar</h2>
-        <p>Calendar will be displayed here.</p>
-      </>
+      <p>Calendar will be displayed here.</p>
     ),
     actions: (
-      <>
-        <h2>Quick Actions</h2>
-        <p>Quick actions will be displayed here.</p>
-      </>
+      <p>Quick actions will be displayed here.</p>
     ),
     insights: (
-      <>
-        <h2>Insights</h2>
-        <p>Insights and tips will be displayed here.</p>
-      </>
+      <p>Insights and tips will be displayed here.</p>
     ),
   };
 
+  // Get the current section label for the header
+  const currentSection = sections.find(s => s.key === selected);
+
   return (
     <div className="home-layout">
-      <button
-        className="burger-menu"
-        aria-label="Open menu"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
+      {/* Fixed header */}
+      <header className="main-header">
+        <button
+          className="burger-menu"
+          aria-label="Open menu"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <h2 className="screen-title">{currentSection?.label}</h2>
+      </header>
       <nav className={`sidebar${sidebarOpen ? ' open' : ''}`}>
         <h1>Home</h1>
         <ul>
@@ -104,7 +91,7 @@ const HomeScreen: React.FC = () => {
               className={selected === section.key ? 'active' : ''}
               onClick={() => {
                 setSelected(section.key);
-                setSidebarOpen(false); // close menu on selection
+                setSidebarOpen(false);
               }}
               tabIndex={0}
               role="button"
@@ -123,4 +110,4 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-export default HomeScreen;
+export default Home;

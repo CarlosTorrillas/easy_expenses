@@ -58,3 +58,33 @@ tbody tr:hover td {
 .sort-arrow.visible {
   color: #6366f1;
 }
+
+@media (max-width: 700px) {
+  table, thead, tbody, tr, th, td {
+    display: block;
+    width: 100%;
+  }
+  thead {
+    display: none;
+  }
+  tr {
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 1rem;
+  }
+  td {
+    padding: 0.5rem 0;
+    border: none;
+    position: relative;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6366f1;
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.95em;
+  }
+}

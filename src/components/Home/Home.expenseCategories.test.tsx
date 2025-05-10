@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HomeScreen from './Home';
+import Home from './Home';
 import '@testing-library/jest-dom';
 
 const expenseCategories = [
@@ -32,7 +32,7 @@ const sortColumns: { column: string; header: RegExp; key: keyof typeof expenseCa
 
 describe('Feature: View Different Expense Categories', () => {
   beforeEach(async () => {
-    render(<HomeScreen />);
+    render(<Home />);
     await userEvent.click(screen.getByRole('button', { name: /expense categories/i }));
   });
 

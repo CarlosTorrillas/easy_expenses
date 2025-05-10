@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HomeScreen from './Home';
+import Home from './Home';
 import '@testing-library/jest-dom';
 
 describe('Feature: Home Screen Structure and Default View', () => {
   beforeEach(() => {
-    render(<HomeScreen />);
+    render(<Home />);
   });
 
   test('The page displays a title "Home"', () => {

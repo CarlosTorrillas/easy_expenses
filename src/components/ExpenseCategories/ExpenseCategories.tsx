@@ -173,13 +173,13 @@ const ExpenseCategories: React.FC<Props> = ({ categories }) => {
       <tbody>
         {getSortedCategories().map((cat) => (
           <tr key={cat.id} data-testid={`expense-row-${cat.id}`}>
-            <td>{cat.type}</td>
-            <td>{cat.name}</td>
-            <td>{cat.supplier}</td>
-            <td>{cat.cost}</td>
-            <td>{cat.paymentDay}</td>
-            <td>{cat.paymentMethod}</td>
-            <td>{cat.bank}</td>
+            <td data-label="Type">{cat.type}</td>
+            <td data-label="Name">{cat.name}</td>
+            <td data-label="Supplier">{cat.supplier}</td>
+            <td data-label="Cost">{cat.cost}</td>
+            <td data-label="Payment Day">{cat.paymentDay}</td>
+            <td data-label="Payment Method">{cat.paymentMethod}</td>
+            <td data-label="Bank">{cat.bank ?? ''}</td>
           </tr>
         ))}
       </tbody>
