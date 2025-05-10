@@ -3,6 +3,7 @@ import './Home.css';
 import ExpenseCategories from '../ExpenseCategories/ExpenseCategories';
 import { ExpenseCategory } from '../ExpenseCategories/ExpenseCategories';
 import MonthlySummary from '../MonthlySummary/MonthlySummary';
+import Calendar from '../Calendar/Calendar';
 
 const sections = [
   { key: 'monthly', label: 'Monthly Summary' },
@@ -55,7 +56,7 @@ const Home: React.FC = () => {
       <p>Recent transactions will be displayed here.</p>
     ),
     calendar: (
-      <p>Calendar will be displayed here.</p>
+      <Calendar categories={expenseCategories} />
     ),
     actions: (
       <p>Quick actions will be displayed here.</p>

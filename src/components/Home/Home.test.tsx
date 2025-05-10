@@ -30,7 +30,6 @@ describe('Feature: Home Screen Structure and Default View', () => {
     {
       button: /calendar/i,
       heading: /calendar/i,
-      content: /calendar will be displayed here/i,
     },
     {
       button: /quick actions/i,
