@@ -1,0 +1,65 @@
+.monthly-summary-total {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2rem 0 1.5rem 0;
+  color: #2563EB;
+  background: #e6f6fb;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(38, 99, 235, 0.06);
+}
+
+.category-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+
+.category-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(38, 99, 235, 0.07);
+  padding: 1.2rem 1.5rem;
+  min-width: 180px;
+  flex: 1 1 220px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-left: 8px solid #f4e2d8;
+}
+
+.category-card .category-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2563EB;
+  margin-bottom: 0.5rem;
+}
+
+.category-card .category-amount {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #b08968;
+}
+
+@media (max-width: 700px) {
+  .monthly-summary-total {
+    font-size: 1.1rem;
+    padding: 0.7rem 1rem;
+    margin: 1.2rem 0 1rem 0;
+  }
+  .category-cards {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .category-card {
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+    padding: 1rem;
+  }
+}
