@@ -14,8 +14,7 @@ describe('Feature: Home Screen Structure and Default View', () => {
   });
 
   test('The "Monthly Summary" section is shown by default', () => {
-    expect(screen.getByRole('heading', { name: /monthly summary/i })).toBeInTheDocument();
-    expect(screen.getByText(/monthly summary will be displayed here/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Monthly Summary/i })).toBeInTheDocument();
   });
 
   const sections = [
@@ -67,12 +66,12 @@ describe('Feature: Home Screen Structure and Default View', () => {
   test('When I click "Monthly Summary", I see the Monthly Summary section', async () => {
     // First, click another section to hide Monthly Summary
     await userEvent.click(screen.getByRole('button', { name: /expense categories/i }));
-    expect(screen.queryByText(/monthly summary will be displayed here/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Total Spending This Month/i)).not.toBeInTheDocument();
   
     // Now, click "Monthly Summary"
     await userEvent.click(screen.getByRole('button', { name: /monthly summary/i }));
     
     expect(screen.getByRole('heading', { name: /monthly summary/i })).toBeInTheDocument();
-    expect(screen.getByText(/monthly summary will be displayed here/i)).toBeInTheDocument();
+    expect(screen.getByText(/Total Spending This Month/i)).toBeInTheDocument();
   });
 });

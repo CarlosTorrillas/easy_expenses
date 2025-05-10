@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.css';
 import ExpenseCategories from '../ExpenseCategories/ExpenseCategories';
 import { ExpenseCategory } from '../ExpenseCategories/ExpenseCategories';
+import MonthlySummary from '../MonthlySummary/MonthlySummary';
 
 const sections = [
   { key: 'monthly', label: 'Monthly Summary' },
@@ -45,7 +46,7 @@ const Home: React.FC = () => {
 
   const sectionContent: Record<string, React.ReactNode> = {
     monthly: (
-      <p>Monthly summary will be displayed here.</p>
+      <MonthlySummary categories={expenseCategories} />
     ),
     categories: (
       <ExpenseCategories categories={expenseCategories} />
