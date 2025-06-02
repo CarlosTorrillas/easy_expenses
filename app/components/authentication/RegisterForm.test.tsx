@@ -19,7 +19,7 @@ describe('Register User', () => {
   });
 
   it('GIVEN the customer is on the register form AND inputs valid data AND is not already registered WHEN the customer selects to register THEN a success message should be displayed', async () => {
-    render(<RegisterForm />);
+    render(<RegisterForm onSwitchToLogin={() => {}}/>);
 
     // Fill in the form fields
     fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Alice' } });
