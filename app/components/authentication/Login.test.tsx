@@ -24,17 +24,7 @@ describe('Login', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
-
-  it('GIVEN the customer is on the login form AND inputs valid data AND is already registered WHEN the customer selects to login THEN the customer should land in their home screen', async () => {
-    render(<Login onSwitchToRegister={() => {}} />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'alice@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'secret' } });
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText(/welcome home/i)).toBeInTheDocument();
-    });
-  });
+  
   it.each([
     {
       label: /email/i,

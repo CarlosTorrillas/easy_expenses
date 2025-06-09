@@ -2,14 +2,15 @@
 
 import React, { useState } from 'react';
 import styles from './Login.module.css';
+import { useRouter } from 'next/navigation';
 
 type LoginFormProps = {
   onSwitchToRegister: () => void;
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
+  const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
-  const [loggedIn, setLoggedIn] = useState(false);
   const [errors, setErrors] = useState<{ email?: string, password?: string }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,14 +21,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let newErrors: { email?: string, password?: string} = {};
-    if (!form.email) {
-      newErrors.email = 'Email is required';
-    }
-    // Add similar check for password if needed
-    if (!form.password) {
-      newErrors.password = 'Password is required';
-    }
-
+    if (!form.email) newErrors.email = 'Email is required';
+    if (!form.password) newErrors.password = 'Password is required';
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -38,13 +33,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
-    if (res.ok) setLoggedIn(true);
-    // else show error (optional)
+    if (res.ok) {
+      router.push('/home'); // Navigate to home on success
+    }
   };
-
-  if (loggedIn) {
-    return <div>Welcome home!</div>;
-  }
 
   return (
     <div className={styles.container}>
